@@ -102,9 +102,18 @@ const HeroSection = () => {
 
   const [scrollY, setScrollY] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
+  const [isSticky2, setIsSticky2] = useState(false);
 
   const handleScroll = () => {
-    setScrollY(window.scrollY);
+    const currentScroll = window.scrollY;
+    setScrollY(currentScroll);
+
+    const windowHeight = window.innerHeight;
+    if (currentScroll > windowHeight) {
+      setIsSticky2(true);
+    } else {
+      setIsSticky2(false);
+    }
     if (window.scrollY > 100) { // You can adjust this threshold
       setIsSticky(true);
     } else {
@@ -119,8 +128,8 @@ const HeroSection = () => {
 
   // Define a scaling factor based on your requirements.
   // For example, we can scale down the image by 0.001 units for every pixel scrolled.
-  const scale = Math.max(1 - scrollY * 0.001, 0.9); // 0.5 is the minimum scale
-  const translateX = scrollY * 0.7; // Translate to the right
+  const scale = Math.max(1 - scrollY * 0.001, 0.5);
+  const translateX = scrollY * 0.5;
 
   return (
     <div>
@@ -167,18 +176,46 @@ const HeroSection = () => {
         
       </div>
     </section>
-
-    <div style={{marginTop: '2%'}}>
-        <motion.img
-          src={ip}
+    <div style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
+      
+    <motion.img
+        src={ip}
+        initial={{ x: 0, y: 0 }}
+        animate={{
+          x: isSticky ? window.innerWidth * 0.3 : translateX,
+          scale: scale,
+          y: isSticky ? 0 : scrollY
+        }}
+        transition={{ duration: 0.7 }}
+        style={{
+          position: 'absolute',
+          top: "5%",
+          left: "35%",
+          height: '100%',
+          zIndex: 10
+        }}
+      />
+      {isSticky && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           style={{
-            height: "50%",
-            width: `${28 * scale}%`,
-            marginTop: `${7 * scale}%`,
-            transform: `translateX(${translateX}px)`,
+            position: 'absolute',
+            top: '50%',
+            left: '10%',
+            transform: 'translateY(-50%)',
+            zIndex: 5,
+            color: "white",
+            fontWeight: "bolder",
+            fontSize: "1.5rem"
           }}
-        />
-        </div>
+        >
+          Embark on your next adventure with ease <br/>
+           Let the travel buddy plan your journey to perfection!
+        </motion.div>
+      )}
+    </div>
         </div>
   );
 };

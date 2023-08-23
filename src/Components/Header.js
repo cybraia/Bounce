@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from "../assets/logo.png"
 
 const Header = () => {
   return (
@@ -13,14 +14,28 @@ const Header = () => {
         padding: '1.5rem',
       }}
     >
-      <div className="logo" style={{ fontSize: '2.5rem', 
-      fontWeight: 'bolder', 
-      color: 'white',
-      fontFamily: 'Dancing Script'
-      }}>
+      <div
+        className="logo"
+        style={{
+          fontSize: '2.5rem',
+          fontWeight: 'bolder',
+          color: 'white',
+          fontFamily: 'Dancing Script',
+          display: 'flex',
+          alignItems: 'center',  // Center the logo vertically
+        }}
+      >
+        <img
+          src={logo}
+          alt="Bounce Logo"
+          style={{
+            width: '50px',  // Adjust the width as needed
+            height: 'auto', // Maintain aspect ratio
+            marginRight: '1rem', // Add spacing between logo and text
+          }}
+        />
         Bounce
       </div>
-     
     </header>
   );
 };
